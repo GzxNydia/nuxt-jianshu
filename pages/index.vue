@@ -1,19 +1,22 @@
 <template>
     <div>
-        <b-container>
-            <b-row>
-                <i class="fa fa-scissors" style="font-size: 1000px"></i>
-            </b-row>
-        </b-container>
+        <my-header></my-header>
+        <div class="container">
+            hahahahah
+        </div>
     </div>
 </template>
 
 <script>
+    import myHeader from '~/components/myHeader'
     export default {
-        name: "index"
+        name: "index",
+        components:{
+            myHeader
+        }
     }
 </script>
 
-<style scoped>
+<style>
 
 </style>

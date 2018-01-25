@@ -1,7 +1,8 @@
 
 html,body{
     height: 100%;
-    background-color: #f1f1f1!important;
+    /*background-color: #f1f1f1!important;*/
+    /*padding: 0!important;*/
 }
 .sign{
     height: 100%;
@@ -167,7 +168,7 @@ html,body{
 }
 .main form .input-prepend .ssm{
     position: relative;
-}
+   }
 .main form .input-prepend a.send-ssm{
     position: absolute;
     border-radius: 20px;
@@ -188,8 +189,9 @@ html,body{
         box-shadow: none;
         margin-top: 0;
     }
-    html,body{
+    #sign-template{
         background-color: white !important;
     }
+
 
 }
