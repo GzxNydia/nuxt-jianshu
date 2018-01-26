@@ -43,7 +43,6 @@
     </section>
 </template>
 <script>
-    import 'assets/css/error.css'
     export default {
         props: ['error']
     }
@@ -64,5 +63,52 @@
   .button
   {
     margin-top: 50px;
+  }
+  .container{
+    text-align: center;
+    padding: 80px 0;
+  }
+  .logoImg{
+    position: absolute;
+    top:50px;
+    left: 50px;
+  }
+  .logoImg img{
+    width: 300px;
+    height: 40px;
+  }
+
+  .container>img{
+    width: 220px;
+    height: 200px;
+  }
+  .container>h3{
+    font-size: 20px;
+    margin: 40px 0 20px 0;
+  }
+  .container>p{
+    font-size: 14px;
+    margin: 10px 0 30px 0;
+  }
+  .button>input{
+    border-radius: 15px;
+  }
+  .imgRouter{
+    width: 100%;
+    display: flex;
+    border-top: 1px solid #939393;
+    justify-content: space-around;
+  }
+  .imgRouter a i{
+    font-size: 80px;
+    color: #969696!important;
+  }
+  @media (max-width: 768px) {
+    .logoImg{
+      display: none;
+    }
+    .imgRouter{
+      display: none;
+    }
   }
 </style>
