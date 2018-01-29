@@ -4,10 +4,15 @@
         <div class="index my-container">
             <div class="row">
                 <div class="col-8 main">
-                    <div class="banner">
-                        <nuxt-link to="/">
-                            <img src="../assets/img/banner1.jpg" alt="">
-                        </nuxt-link>
+                    <div v-swiper:mySwiper="swiperOption">
+                        <div class="swiper-wrapper banner">
+                            <div class="swiper-slide" v-for="banner in banners">
+                                <img :src="banner">
+                            </div>
+                        </div>
+                        <div class="swiper-pagination swiper-pagination-white"></div>
+                        <div class="swiper-button-prev swiper-button-white"></div>
+                        <div class="swiper-button-next swiper-button-white"></div>
                     </div>
                 </div>
                 <div class="col-4 aside">
@@ -40,10 +45,46 @@
         name: "index",
         components:{
             myHeader
+        },
+        data(){
+            return{
+                banners:[
+                    "/banner1.jpg",
+                    "/banner2.jpg",
+                    "/banner3.jpg",
+                    "/banner4.jpg",
+                    "/banner5.jpg",
+                    "/banner6.jpg"
+                ],
+                swiperOption: {
+                    loop: true,
+                    slidesPerView: 'auto',
+                    centeredSlides: true,
+                    spaceBetween: 30,
+                    autoplay:{
+                        display:3000,
+                        stopOnLastSlide:false,
+                        disableOnInteraction:false
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true
+                    },
+                    navigation:{
+                        nextEl:'.swiper-button-next',
+                        prevEl:'.swiper-button-prev'
+                    }
+                }
+            }
+        },
+        mounted() {
         }
+
     }
 </script>
 
 <style>
-
+    .swiper-pagination span.active{
+        color: #969696!important;
+    }
 </style>

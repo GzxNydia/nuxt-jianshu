@@ -59,16 +59,18 @@ img{
 /**********************************首页布局*********************************************/
 .index .main{
     padding-right: 0;
-}
-.index .mian .banner img{
+} 
+.index .main .banner img{
     width: 100%;
-}
+    border-radius: 10px;
+ }
 .index .aside{
     padding: 0 0 0 4.1666%;
 }
 .index .aside .board img{
     width: 100%;
     margin-bottom: 5.5px;
+
  }
 /*文章页面布局*/
 /*用户页面*/
