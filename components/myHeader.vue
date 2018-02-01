@@ -150,8 +150,9 @@
         padding: 0;
         border-bottom: 1px solid #f0f0f0;
         margin-bottom: 20px;
+        background-color: white;
     }
-    nav .nav-fixed-top{
+    nav.nav-fixed-top{
         position: fixed;
         top: 0;
         z-index: 9999;
