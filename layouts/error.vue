@@ -1,11 +1,5 @@
 <template>
   <section>
-    <!--<h1 class="title">-->
-    <!--{{ error.statusCode }}-->
-    <!--</h1>-->
-    <!--<h2 class="info">-->
-    <!--{{ error.message }}11111111-->
-    <!--</h2>-->
     <div class="container">
       <div class="logoImg">
         <img src="../assets/img/error.png" alt="">
@@ -14,7 +8,7 @@
       <h3><strong>你要找的页面不存在</strong></h3>
       <p>可能是因为您的链接地址有误、该文章已经被作者删除或转为私密状态。</p>
       <div>
-        <nuxt-link class="button" to="/" v-if="error.statusCode === '404'">
+        <nuxt-link class="button" to="/" v-if="error.statusCode == '404'">
           <input class="btn btn-success reg-btn" type="button" value="返回简书首页">
         </nuxt-link>
       </div>
@@ -81,6 +75,7 @@
   .container>img{
     width: 220px;
     height: 200px;
+    margin: 0 auto;
   }
   .container>h3{
     font-size: 20px;

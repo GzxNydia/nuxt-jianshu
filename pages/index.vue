@@ -241,11 +241,14 @@
                             <img src="../assets/img/right-5.png" alt="">
                         </nuxt-link>
                     </div>
-                    <nuxt-link to="/" class="download">
-                        <img src="../assets/img/zanshang1.png" alt="">
-                        <div>
-
+                    <nuxt-link to="/" class="download" id="popoverButton-sync" variant="primary">
+                        <img src="../assets/img/zanshang1.png" alt="" style="float: left">
+                        <div style="float: left;overflow: hidden;margin-top: 30px">
+                            <span>喜欢作者就赞赏一下吧</span>
                         </div>
+                        <b-popover :show.sync="showPop" target="popoverButton-sync" placement="top" triggers="hover focus">
+                            <img src="../assets/img/zanshang.png" alt="">
+                        </b-popover>
                     </nuxt-link>
                     <div class="recommend-author">
 
@@ -389,6 +392,7 @@
                     "/banner5.jpg",
                     "/banner6.jpg"
                 ],
+                showPop:false,
                 swiperOption: {
                     loop: true,
                     slidesPerView: 'auto',
