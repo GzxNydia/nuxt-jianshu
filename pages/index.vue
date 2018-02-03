@@ -247,7 +247,7 @@
                             <span>喜欢作者就赞赏一下吧</span>
                         </div>
                         <b-popover :show.sync="showPop" target="popoverButton-sync" placement="top" triggers="hover focus">
-                            <img src="../assets/img/zanshang.png" alt="">
+                            <img src="../assets/img/zanshang.png" alt="" style="width: 276px">
                         </b-popover>
                     </nuxt-link>
                     <div class="recommend-author">

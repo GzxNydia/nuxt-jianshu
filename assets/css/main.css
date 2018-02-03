@@ -64,6 +64,16 @@ img{
         width: 750px;
     }
 }
+@media (max-width: 750px){
+    body {
+       overflow-x: hidden;
+    }
+}
+@media (max-width: 785px) {
+    .note .post {
+        margin: 0 74px;
+    }
+}
 /**********************************首页布局*********************************************/
 .index .main{
     padding-right: 0;
@@ -355,6 +365,7 @@ img{
     padding-top: 20px;
     padding-bottom: 40px;
 }
+
 .note .post .article .title{
     font-size: 34px;
     font-weight: 700;

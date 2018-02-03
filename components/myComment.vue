@@ -24,10 +24,10 @@
                         <div class="hint">
                             Ctrl + Enter发表
                         </div>
-                        <a href="javascript:voit(0)" class="btn btn-send" @click="sendData">
+                        <a href="javascript:void(0)" class="btn btn-send" @click="sendData">
                             发送
                         </a>
-                        <a href="javascript:voit(0)" class="cancel" @click="send = false">
+                        <a href="javascript:void(0)" class="cancel" @click="send = false">
                             取消
                         </a>
                     </div>
@@ -138,15 +138,78 @@
                                 </nuxt-link>
                                 <div class="meta">
                                     <span>
-                                        {{comment.floor}}楼·{{comment.create_at}}
+                                        {{comment.floor}}楼·{{comment.create_at|formatDate}}
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="comment-wrap"></div>
+                        <div class="comment-wrap">
+                            <p v-html="comment.compiled_content"></p>
+                            <div class="tool-group">
+                                <a href="javascript:void(0)" @click="isZan(index)"  :class="{active:active_zan}" class="zan">
+                                    <i class="fa" :class="zanObj"></i>
+                                    <span>{{comment.like_count}}人点赞</span>
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-comment-o"></i>
+                                    <span>回复</span>
+                                </a>
+
+                            </div>
+                        </div>
                     </div>
                     <!--二级回复-->
-                    <div class="sub-comment-list"></div>
+                    <div v-if="comment.children.length != 0" class="sub-comment-list">
+                        <div v-for="(subComment,index) in comment.children" :id="'comment' + subComment.id" class="sub-comment">
+                            <p>
+                                <nuxt-link to="/u/123">
+                                    {{subComment.user.nick_name}}
+                                </nuxt-link>
+                                :
+                                <span v-html="subComment.compiled_content"></span>
+                            </p>
+                            <div class="sub-tool-group">
+                                <span>{{subComment.create_at|formatDate}}</span>
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-comment-o"></i>
+                                    <span>回复</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="more-comment">
+                            <a href="javascript:void(0)" class="add-comment-btn">
+                                <i class="fa fa-pencil"></i>
+                                <span>添加新评论</span>
+                            </a>
+                        </div>
+                        <form class="second-comment">
+                            <textarea  placeholder="写下你的评论"></textarea>
+                                <div class="weite-function-block clearfix">
+                                    <div class="emoji-modal-wrap">
+                                        <a class="emoji" @click="showEmoji=!showEmoji">
+                                            <i class="fa fa-smile-o"></i>
+                                        </a>
+                                        <transition :duration="200" name="fade">
+                                            <div class="emoji-modal arrow-up" v-if="showEmoji">
+                                                <vue-emoji @select="selectEmoji">
+
+                                                </vue-emoji>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                    <div class="hint">
+                                        Ctrl + Enter发表
+                                    </div>
+                                    <a href="javascript:void(0)" class="btn btn-send" @click="sendData">
+                                        发送
+                                    </a>
+                                    <a href="javascript:void(0)" class="cancel" @click="send = false">
+                                        取消
+                                    </a>
+                                </div>
+                        </form>
+                    </div>
+                    <!--显示表单-->
                 </div>
             </div>
         </div>
@@ -162,13 +225,18 @@
                 send:false,
                 showEmoji:false,
                 value:'',
+                zanObj:{
+                    'fa-thumbs-o-up':true,
+                    'fa-thumbs-up':false
+                },
+                active_zan:false,
                 comments:[
                     {
                         id:19935725,
                         floor:2,
                         liked:true,
                         showPopid:false,
-                        like_count:112,
+                        like_count:100,
                         note_id:23054027,
                         user_id:6780849,
                         user:{
@@ -280,7 +348,7 @@
                         floor:4,
                         showPopid:false,
                         liked:true,
-                        likes_count:10,
+                        like_count:10,
                         note_id:23054027,
                         user_id:7839387,
                         user:{
@@ -292,40 +360,40 @@
                         },
                         create_at:'2018-01-29T22:00:29',
                         children_count:1,
-                        complied_content:'抢到沙发啦。',
+                        compiled_content:'抢到沙发啦 <br> 哈哈哈哈哈哈哈哈',
                         children:[
                             {
                                 id: 20100917,
                                 user_id:8179167,
-                                complied_content:'<a href="/users/22d2f8f31588" class="maleskine-author" target="_blank" data-user-slug="22d2f8f31588">@长亭外的夏小乔</a> ',
+                                compiled_content:'@长亭外的夏小乔 略略略',
                                 user:{
                                     id: 8179167,
-                                    nickname: "渴死之水"
+                                    nick_name: "渴死之水"
                                 },
                                 parent_id: 20100836,
-                                created_at: "2018-01-29T22:02:13.000+08:00",
+                                create_at:'2018-02-02T10:52:22',
                             },
                             {
                                 id: 20103918,
                                 user_id:7839387,
-                                complied_content:'<a href="/users/0371efd5f978" class="maleskine-author" target="_blank" data-user-slug="0371efd5f978">@渴死之水</a> 晚安，朋友，做个好梦。',
+                                compiled_content:' 晚安，<br>朋友，做个好梦。',
                                 user:{
                                     id: 7839387,
-                                    nickname: "长亭外的夏小乔"
+                                    nick_name: "长亭外的夏小乔"
                                 },
                                 parent_id: 20100836,
-                                created_at: "2018-01-29T23:11:40.000+08:00",
+                                create_at:'2018-02-02T10:52:22',
                             },
                             {
                                 id: 20104201,
                                 user_id:8179167,
-                                complied_content:'<a href="/users/22d2f8f31588" class="maleskine-author" target="_blank" data-user-slug="22d2f8f31588">@长亭外的夏小乔</a> ',
+                                compiled_content:'❤❤❤❤❤',
                                 user:{
                                     id: 8179167,
-                                    nickname: "渴死之水"
+                                    nick_name: "渴死之水"
                                 },
                                 parent_id: 20100836,
-                                created_at: "2018-01-29T23:19:55",
+                                create_at:'2018-02-02T10:52:22',
                             },
                         ]
                     },
@@ -334,7 +402,7 @@
                         floor:5,
                         showPopid:false,
                         liked:true,
-                        likes_count:0,
+                        like_count:0,
                         note_id:23054027,
                         user_id:7839311,
                         user:{
@@ -346,19 +414,29 @@
                         },
                         create_at:'2018-01-29T22:00:29',
                         children_count:1,
-                        complied_content:'抢到沙发啦。'
+                        compiled_content:'厉害了 哈哈哈哈哈哈哈哈哈<br>笑的我大姨妈都漏了，你赔 666666666666666666666666666',
+                        children:[]
                     }
                 ]
             }
         },
         methods:{
-          selectEmoji:function(code){
+            selectEmoji:function(code){
               this.showEmoji = false;
               this.value += code;
           },
-          sendData:function(){
+            sendData:function(){
               console.log("发送信息")
-          }
+          },
+            isZan:function(index){
+                if(this.active_zan == true){
+                    --this.comments[index].like_count
+                }else{
+                    ++this.comments[index].like_count
+                }
+                //将最新的like_number值直接发送给后台
+                this.active_zan = !this.active_zan;
+            }
         },
         components:{
             vueEmoji
@@ -524,6 +602,151 @@
     .note .post .comment-list .info .meta{
         font-size: 12px;
         color: #969696;
+    }
+    .note .post .comment-list .comment-content .author{
+        margin-bottom: 15px;
+    }
+    .note .post .comment-list .comment p{
+        font-size: 16px;
+        margin: 10px 0;
+        line-height: 1.5;
+        word-break: break-all!important;
+    }
+    .note .post .comment-list .comment .tool-group a{
+        color: #969696!important;
+        margin-right: 10px;
+    }
+    .note .post .comment-list .comment .tool-group a:hover{
+        color: #333333!important;
+    }
+    .note .post .comment-list .comment .tool-group a i{
+         font-size: 18px;
+         margin-right: 5px;
+     }
+    .note .post .comment-list .comment .tool-group .zan:hover i{
+        color: #ea6f5a;
+    }
+    .note .post .comment-list .comment .tool-group .active i{
+        color: #ea6f5a!important;
+    }
+    .note .post .comment-list .comment .tool-group .active span{
+        color: #333333;
+    }
+    .note .post .comment-list .second-comment{
+        position: relative;
+        margin-top: 10px;
+    }
+    .note .post .comment-list .second-comment textarea{
+        width: 100%;
+        height: 80px;
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        display: inline-block;
+        vertical-align: top;
+        outline-style: none;
+        resize: none;
+    }
+    .note .post .comment-list .second-comment .emoji-modal-wrap{
+        position: relative;
+
+    }
+    .note .post .comment-list .second-comment .emoji{
+        float: left;
+        margin-top: 18px;
+    }
+    .note .post .comment-list .second-comment .emoji i{
+        font-size: 25px;
+        color: #969696;
+        cursor: pointer;
+    }
+    .note .post .comment-list .second-comment .emoji i:hover{
+        color: #333;
+    }
+    .note .post .comment-list .second-comment .hint{
+        float: left;
+        margin: 20px 0 0 20px;
+        font-size: 13px;
+        color: #969696;
+    }
+    .note .post .comment-list .second-comment .cancel{
+        float: right;
+        font-size: 16px;
+        margin: 20px 30px 0 0;
+        color: #969696!important;
+    }
+    .note .post .comment-list .second-comment .cancel:hover{
+        color: #333333!important;
+    }
+    .note .post .comment-list .second-comment .btn-send{
+        float: right;
+        width: 78px;
+        padding: 8px 18px;
+        margin: 10px 0;
+        font-size: 16px;
+        background: #42c02e;
+        border-radius: 40px;
+        color: white!important;
+        text-align: center;
+        box-shadow: none;
+    }
+    .note .post .comment-list .second-comment .btn-send:hover{
+        background: #3db922;
+    }
+    .note .post .comment-list .second-comment .emoji-modal-wrap .emoji-modal {
+        position: absolute;
+        top: 50px;
+        left: -48px;
+        width: 402px;
+        height: 208px;
+        padding: 10px;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        box-shadow: 0 5px 20px rgba(0,0,0,.1);
+        z-index: 999999;
+        background: white;
+    }
+    .note .post .comment-list .comment .tool-group a span{
+        font-size: 14px;
+
+    }
+    .note .post .comment-list .sub-comment-list{
+        border-left: 2px solid #d9d9d9;
+        margin-top: 10px;
+        padding: 5px 0 5px 20px;
+    }
+    .note .post .comment-list .sub-comment{
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #f0f0f0;
+    }
+    .note .post .comment-list .sub-comment p{
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 5px;
+    }
+    .note .post .comment-list .sub-comment p a{
+        color: #3194d0!important;
+    }
+    .note .post .comment-list .sub-tool-group{
+        color: #969696;
+        font-size: 12px;
+    }
+    .note .post .comment-list .sub-tool-group a{
+             margin-left: 10px;
+         }
+    .note .post .comment-list .sub-tool-group a i{
+        margin-right: 10px;
+    }
+    .note .post .comment-list .more-comment{
+        font-size: 14px;
+        color: #969696;
+    }
+    .note .post .comment-list .more-comment i{
+        margin-right: 5px;
+    }
+    .note .post .comment-list .more-comment a:hover{
+        color: #333333!important;
     }
     .note .post .comment-list .v-tooltip{
         display: inline-block;

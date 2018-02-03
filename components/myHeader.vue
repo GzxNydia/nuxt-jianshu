@@ -393,7 +393,7 @@
             width: 160px;
         }
     }
-    @media (max-width: 800px) {
+    @media (max-width: 820px) {
         nav .nav-list {
             display: none;
         }
