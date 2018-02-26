@@ -177,21 +177,22 @@
                             </div>
                         </div>
                         <div class="more-comment">
-                            <a href="javascript:void(0)" class="add-comment-btn">
+                            <a href="javascript:void(0)" @click="showSubCommentForm(index)" class="add-comment-btn">
                                 <i class="fa fa-pencil"></i>
                                 <span>添加新评论</span>
                             </a>
                         </div>
-                        <form class="second-comment">
-                            <textarea  placeholder="写下你的评论"></textarea>
+                        <transition :duration="300" name="fade">
+                            <form class="second-comment" v-if="activeIndex.includes(index)">
+                            <textarea v-model="subCommentList[index]" placeholder="写下你的评论" v-focus></textarea>
                                 <div class="weite-function-block clearfix">
                                     <div class="emoji-modal-wrap">
-                                        <a class="emoji" @click="showEmoji=!showEmoji">
+                                        <a class="emoji" @click="showSubEmoji(index)">
                                             <i class="fa fa-smile-o"></i>
                                         </a>
                                         <transition :duration="200" name="fade">
-                                            <div class="emoji-modal arrow-up" v-if="showEmoji">
-                                                <vue-emoji @select="selectEmoji">
+                                            <div class="emoji-modal arrow-up" v-if="emojiIndex.includes(index)">
+                                                <vue-emoji @select="selectSubEmoji">
 
                                                 </vue-emoji>
                                             </div>
@@ -200,14 +201,15 @@
                                     <div class="hint">
                                         Ctrl + Enter发表
                                     </div>
-                                    <a href="javascript:void(0)" class="btn btn-send" @click="sendData">
+                                    <a href="javascript:void(0)" class="btn btn-send" @click="sendSubCommentData(index)">
                                         发送
                                     </a>
-                                    <a href="javascript:void(0)" class="cancel" @click="send = false">
+                                    <a href="javascript:void(0)" class="cancel" @click="closeSubComment(index)">
                                         取消
                                     </a>
                                 </div>
                         </form>
+                        </transition>
                     </div>
                     <!--显示表单-->
                 </div>
@@ -230,6 +232,8 @@
                     'fa-thumbs-up':false
                 },
                 active_zan:false,
+                activeIndex:[],
+                emojiIndex:[],
                 comments:[
                     {
                         id:19935725,
@@ -417,7 +421,9 @@
                         compiled_content:'厉害了 哈哈哈哈哈哈哈哈哈<br>笑的我大姨妈都漏了，你赔 666666666666666666666666666',
                         children:[]
                     }
-                ]
+                ],
+                subCommentList:[],
+
             }
         },
         methods:{
@@ -436,11 +442,70 @@
                 }
                 //将最新的like_number值直接发送给后台
                 this.active_zan = !this.active_zan;
+            },
+            showSubCommentForm:function(value){
+                if(this.activeIndex.includes(value)){
+                    let index = this.activeIndex.indexOf(value);
+                    this.activeIndex.splice(index,1);
+                }else{
+
+                    //清空表单内的内容
+                    this.subCommentList[value] = '';
+                    //将这个表情关掉
+                    this.emojiIndex = [];
+                    this.activeIndex.push(value);
+
+                }
+
+            },
+            sendSubCommentData:function(value){
+                let index = this.activeIndex.indexOf(value);
+                this.activeIndex.splice(index,1);
+            },
+            closeSubComment:function(value){
+                let index = this.activeIndex.indexOf(value);
+                this.activeIndex.splice(index,1);
+
+            },
+            showSubEmoji:function(value){
+                if(this.emojiIndex.includes(value)){
+                    let index = this.emojiIndex.indexOf(value);
+                    this.emojiIndex.splice(index,1);
+                }else{
+                    this.emojiIndex.push(value);
+                }
+
+            },
+            selectSubEmoji:function(code){
+                let index = this.emojiIndex[0];//当前下标
+                //将表情所代表的的code值放入表单当中
+                if(this.subCommentList[index] == null){
+                    this.subCommentList[index] = '';
+                }
+                this.subCommentList[index] += code;
+                this.emojiIndex = [];
             }
+
         },
         components:{
             vueEmoji
-        }
+        },
+        directives: {
+            // 除了默认设置的核心指令( v-model 和 v-show ),Vue 也允许注册自定义指令。
+            // 对纯 DOM 元素进行底层操作
+            // 注册局部指令，在模板中任何元素上使用新的 v-focus 属性
+            "focus": {
+                // 钩子函数：bind inserted update componentUpdated unbind
+                // 钩子函数的参数：el，binding，vnode，oldVnode
+                bind:function(el,binding,vnode,oldVnode){
+                    el.focus();
+                },
+                inserted: function (el) {
+                    // 聚焦元素
+                    el.focus()
+                }
+            }
+        },
     }
 </script>
 

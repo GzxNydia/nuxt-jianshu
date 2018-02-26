@@ -27,6 +27,17 @@
     import 'bootstrap/dist/css/bootstrap.css'
     import 'bootstrap-vue/dist/bootstrap-vue.css'
     export default {
+        created(){
+            if(this.$route.path == '/users'){
+                this.$router.push('/users/myhomepage');
+            }
+            if(this.$route.path == '/users/setting'){
+                this.$router.push('/users/setting/basic');
+            }
+            if(this.$route.path == '/notifications'){
+                this.$router.push('/notifications/comments');
+            }
+        }
     }
 </script>
 
