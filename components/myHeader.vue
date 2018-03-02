@@ -36,7 +36,7 @@
                                 </nuxt-link>
                             </li>
                             <li>
-                                <nuxt-link to="/users/likeBook">
+                                <nuxt-link to="/users/123/like">
                                     <i class="fa fa-heart"></i>
                                     喜欢的文章
                                 </nuxt-link>
@@ -65,13 +65,13 @@
                             </nuxt-link>
                         </li>
                         <li>
-                            <nuxt-link to="/">
+                            <nuxt-link to="/timeline">
                                 <i class="fa fa-bookmark-o"></i>
                                 <span>关注</span>
                             </nuxt-link>
                         </li>
                         <li class="notify" @mouseover='notifyShow = true' @mouseleave='notifyShow = false'>
-                            <nuxt-link to="/">
+                            <nuxt-link to="/notifications/comments">
                                 <i class="fa fa-bell-o"></i>
                                 <span>消息</span>
                             </nuxt-link>

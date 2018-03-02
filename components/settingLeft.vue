@@ -44,12 +44,12 @@
           '/users/setting/misc',
         ],
         faClass:[
-          'fa fa-comment-o',
-          'fa fa-envelope-open-o',
-          'fa fa-upload',
-          'fa fa-heart-o',
-          'fa fa-user-o',
-          'fa fa-user-o',
+          'fa fa-bars',
+          'fa fa-address-card',
+          'fa fa-weibo',
+          'fa fa-close',
+          'fa fa-yen',
+          'fa fa-cog',
         ]
       }
     },

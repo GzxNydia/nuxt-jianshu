@@ -1,5 +1,5 @@
 <template>
-    <div id="list-container">
+    <div id="list-container" style="margin-top: 20px">
         <ul class="note-list">
             <li class="have-img">
                 <nuxt-link to="/p/123" class="wrap-img">

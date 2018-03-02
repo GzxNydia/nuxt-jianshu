@@ -4,7 +4,7 @@
         <div class="my-container" style="padding:100px 0">
             <div class="row">
                 <div class="col-8">
-                    <div class="comment-placeholder">
+                    <div class="comment-placeholder clearfix">
                         <div class="author">
                             <div class="avatar" style="">
                                 <img src="../../assets/img/default-avatar.jpg" alt="">
@@ -14,9 +14,9 @@
                                     测试用户
                                 </div>
                                 <ul class="meta">
-                                    <li><p>212</p><a href="javascript:void(0)">关注></a></li>
-                                    <li><p>100</p><a href="javascript:void(0)">粉丝></a></li>
-                                    <li><p>35</p><a href="javascript:void(0)">文章></a></li>
+                                    <li><p>212</p><nuxt-link to="/users/123/followers"">关注></nuxt-link></li>
+                                    <li><p>100</p><nuxt-link to="/users/123/following"">粉丝></nuxt-link></li>
+                                    <li><p>35</p><nuxt-link to="/users/myhomepage"">文章></nuxt-link></li>
                                     <li><p>5000</p><a href="javascript:void(0)">字数></a></li>
                                     <li><p>11</p><a href="javascript:void(0)">收获喜欢></a></li>
                                 </ul>
@@ -33,67 +33,105 @@
                             </div>
                         </div>
                     </div>
-                    <ul class="homeContent">
-                        <li :class="actives[0].active" @click="conentChange(0)"
-                            @mouseover="hoverenter(0)" @mouseleave="hoverleave(0)">
-                            <i class="fa fa-book"></i><span>文章</span>
-                            <div :class="actives[0].active" ref="act0"></div>
+                    <ul class="trigger-menu">
+                        <li :class="{active:currentTab == 'myArticle'}">
+                            <a href="javascript:void(0)" @click="toggleTab('myArticle')">
+                                <i class="fa fa-edit"></i>
+                                文章
+                            </a>
                         </li>
-                        <li :class="actives[1].active" @click="conentChange(1)"
-                            @mouseover="hoverenter(1)" @mouseleave="hoverleave(1)">
-                            <i class="fa fa-book"></i><span>动态</span>
-                            <div :class="actives[1].active" ref="act1"></div>
+                        <li :class="{active:currentTab == 'myNew'}">
+                            <a href="javascript:void(0)" @click="toggleTab('myNew')">
+                                <i class="fa fa-bell"></i>
+                                动态
+                            </a>
                         </li>
-                        <li :class="actives[2].active" @click="conentChange(2)"
-                            @mouseover="hoverenter(2)" @mouseleave="hoverleave(2)">
-                            <i class="fa fa-book"></i><span>最新评论</span>
-                            <div :class="actives[2].active" ref="act2"></div>
+                        <li :class="{active:currentTab == 'myComment'}">
+                            <a href="javascript:void(0)" @click="toggleTab('myComment')">
+                                <i class="fa fa-compress"></i>
+                                最新评论
+                            </a>
                         </li>
-                        <li :class="actives[3].active" @click="conentChange(3)"
-                            @mouseover="hoverenter(3)" @mouseleave="hoverleave(3)">
-                            <i class="fa fa-book"></i><span>热门</span>
-                            <div :class="actives[3].active" ref="act3"></div>
+                        <li :class="{active:currentTab == 'myHot'}">
+                            <a href="javascript:void(0)" @click="toggleTab('myHot')">
+                                <i class="fa fa-fire"></i>
+                                热门
+                            </a>
                         </li>
                     </ul>
-                    <div v-if="actives[0].active != ''">
-                        <my-article></my-article>
-                    </div>
-                    <div v-if="actives[1].active != ''">
-                        <my-new></my-new>
-                    </div>
-                    <div v-if="actives[2].active != ''">
-                        <my-comment></my-comment>
-                    </div>
-                    <div v-if="actives[3].active != ''">
-                        <my-hot></my-hot>
+                    <div id="list-container">
+                        <!--动态组件-->
+                        <component :is="currentTab" keep-alive></component>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="title-info">个人介绍</div>
+                <div class="col-4 aside">
+                    <div class="title">个人介绍</div>
                     <a class="function-btn" href="javascript:void(0)" @click="showText = true"><i class="fa fa-pencil"></i>编辑</a>
                     <div v-if="showText">
                         <textarea></textarea>
                         <div class="btn btn-hollow">保存</div>
                         <a class="cancel-info"  href="javascript:void(null);" @click="showText = false">取消</a>
                     </div>
-                    <ul>
+                    <ul class="list user-dynamic">
                         <li>
-                            <i class="fa fa-heart"></i>
-                            我关注的专题/文集/连载
+                            <nuxt-link to="/users/123/collection">
+                                <i class="fa fa-book"></i>
+                                <span>他关注的专题/文集</span>
+                            </nuxt-link>
                         </li>
                         <li>
-                            <i class="fa fa-heart"></i>
-                            我喜欢的文章
+                            <nuxt-link to="/users/123/like">
+                                <i class="fa fa-heart-o"></i>
+                                <span>他喜欢的文章</span>
+                            </nuxt-link>
                         </li>
                     </ul>
-                    <div class="addContent">
-                        <p>我创建的专题</p>
-                        <span>
-                            <nuxt-link to="collections/new">
-                                <i class="fa fa-plus"></i>
-                                创建一个新专题
-                            </nuxt-link>
-                        </span>
+                    <div>
+                        <!--创建的专题-->
+                        <div class="title">
+                            他创建的专题
+                        </div>
+                        <nuxt-link to="/collection/new" class="function-btn new-collection-btn">
+                            <i class="fa fa-plus"></i><span>新建专题</span>
+                        </nuxt-link>
+                        <ul class="list">
+                            <li>
+                                <nuxt-link to="/collection/123" class="avatar-collection">
+                                    <img src="~assets/img/movie.jpg">
+                                </nuxt-link>
+                                <nuxt-link to="/collection/123" class="name">
+                                    朱焘源值班报告
+                                </nuxt-link>
+                            </li>
+                        </ul>
+                        <!--管理的专题-->
+                        <div class="title">
+                            他管理的专题
+                        </div>
+                        <ul class="list">
+                            <li>
+                                <nuxt-link to="/collection/123" class="avatar-collection">
+                                    <img src="~assets/img/movie.jpg">
+                                </nuxt-link>
+                                <nuxt-link to="/collection/123" class="name">
+                                    朱焘源值班报告
+                                </nuxt-link>
+                            </li>
+                        </ul>
+                        <!--创建的文集-->
+                        <div class="title">
+                            他创建的文集
+                        </div>
+                        <ul class="list">
+                            <li>
+                                <nuxt-link to="/note/123" class="avatar-collection">
+                                    <i class="fa fa-book"></i>
+                                </nuxt-link>
+                                <nuxt-link to="/note/123" class="name">
+                                    朱焘源值班报告
+                                </nuxt-link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -119,12 +157,7 @@
         },
         data() {
             return {
-                actives: [
-                    {active: ''},
-                    {active: ''},
-                    {active: 'active'},
-                    {active: ''},
-                ],
+                currentTab:'myArticle',
                 followObj: {
                     'follow': true,
                     'following': false
@@ -160,36 +193,8 @@
 
                 }
             },
-            conentChange: function (index) {
-                for (let i in this.actives) {
-                    if (i == index) {
-                        this.actives[i].active = 'active';
-                    } else {
-                        this.actives[i].active = '';
-                    }
-                }
-            },
-            hoverenter: function (index) {
-                if (index == 0) {
-                    this.$refs.act0.classList.add('active2');
-                } else if (index == 1) {
-                    this.$refs.act1.classList.add('active2');
-                } else if (index == 2) {
-                    this.$refs.act2.classList.add('active2');
-                } else if (index == 3) {
-                    this.$refs.act3.classList.add('active2');
-                }
-            },
-            hoverleave: function (index) {
-                if (index == 0) {
-                    this.$refs.act0.classList.remove('active2');
-                } else if (index == 1) {
-                    this.$refs.act1.classList.remove('active2');
-                } else if (index == 2) {
-                    this.$refs.act2.classList.remove('active2');
-                } else if (index == 3) {
-                    this.$refs.act3.classList.remove('active2');
-                }
+            toggleTab:function(tab){
+                this.currentTab = tab;
             }
         }
     }
@@ -244,86 +249,88 @@
         color: #333;
     }
 
-    .homepage .col-8 .homeContent {
-        width: 100%;
-        display: flex;
+    .trigger-menu {
+        margin-bottom: 20px;
         border-bottom: 1px solid #f0f0f0;
+        font-size: 0;
+        list-style: none;
     }
-
-    .homepage .col-8 .homeContent > li {
-        padding: 13px 0 0 0;
-        cursor: pointer;
-        color: #969696;
+    .trigger-menu li {
+        position: relative;
+        display: inline-block;
+        padding: 8px 0;
+        margin-bottom: -1px;
     }
-
-    .homepage .col-8 .homeContent > li.active {
-        color: #333;
+    .trigger-menu a {
+        padding: 13px 20px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #969696!important;
+        line-height: 25px;
     }
-
-    .homepage .homeContent > li:hover {
-        color: #333;
-    }
-
-    .homepage .col-8 .homeContent > li > div {
-        width: 0;
-        height: 2px;
-        margin: 0 auto;
-        margin-top: 10px;
-        background-color: #fff;
-        transition: width .3s linear;
-    }
-
-    .homepage .col-8 .homeContent > li > div:hover {
-        width: 100%;
-        background-color: #333;
-    }
-
-    .homepage .col-8 .homeContent > li > div.active, .homepage .homeContent > li > div.active2 {
-        width: 100%;
-        background-color: #333;
-    }
-
-    .homepage .col-8 .homeContent > li > i {
+    .trigger-menu i {
         margin-right: 5px;
-        padding-left: 20px;
+        font-size: 17px;
     }
-
-    .homepage .col-8 .homeContent > li > span {
-        padding-right: 20px;
+    .trigger-menu li.active {
+        border-bottom: 2px solid #646464;
     }
-
-    .homepage .col-4 ul {
-        margin-top: 40px !important;
-        border-top: 1px solid #f0f0f0;
-        border-bottom: 1px solid #f0f0f0;
+    .trigger-menu .active a, .trigger-menu a:hover {
+        color: #646464!important;
     }
-
-    .homepage .col-4 ul li {
-        padding: 10px;
-        font-size: 14px;
+    .trigger-menu li:after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -2px;
+        width: 100%;
+        opacity: 0;
+        border-bottom: 2px solid #646464;
+        -webkit-transform: translate(-50%) scaleX(0);
+        transform: translate(-50%) scaleX(0);
+        transition: .2s ease-in-out
     }
-
-    .homepage .col-4 ul li > i {
-        font-size: 18px;
-        vertical-align: middle;
+    .trigger-menu li:hover:after {
+        opacity: 1;
+        -webkit-transform: translate(-50%) scaleX(1);
+        transform: translate(-50%) scaleX(1);
+        transition: .2s ease-in-out
     }
-
-    .homepage .col-4 .addContent {
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 14px;
-        padding: 10px;
-        line-height: 20px;
+    .homepage .author .sendBtn {
+        padding-top: 20px;
     }
-
-    .homepage .col-4 .addContent span p {
-        margin-bottom: 0;
+    .homepage .author .btn {
+        width: 100px;
+        padding: 8px 0;
+        box-shadow: none;
+        font-size: 15px;
     }
-
-    .homepage .col-4 .addContent span {
-        font-size: 13px;
-        color: #42c02e;
+    .homepage .author .send {
+        border: 1px solid rgba(59, 194, 29, .7);
+        color: #42c02e !important;
+        font-size: 15px;
+        border-radius: 20px;
+        padding: 6px 7px;
+        margin-right: 20px;
     }
-
+    .homepage .author .follow {
+        background: #42c02e;
+        color: white !important;
+        font-size: 15px;
+        border-radius: 20px;
+        padding: 6px 7px;
+    }
+    .homepage .author .following {
+        background: #fff;
+        color: #969696 !important;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        border-radius: 20px;
+        padding: 6px 7px;
+    }
+    #list-container{
+        margin-top: 20px;
+    }
     .homepage .col-4 textarea {
         width: 100%;
         height: 100px;
@@ -337,75 +344,231 @@
         resize: none;
         outline-style: none;
     }
-
-    .homepage .col-4 .title-info {
+    .homepage .col-4 .cancel-info{
+        color: #969696!important;
+        font-size: 14px;
+        margin-left: 20px;
+    }
+    .homepage .col-4 .cancel-info:hover{
+        color: #333!important;
+    }
+    .homepage  .aside .title {
         float: left;
         margin-bottom: 10px;
         font-size: 14px;
         color: #969696;
     }
-    .homepage .col-4 .cancel-info{
-        color: #969696!important;
-        font-size: 14px;
-    }
-    .homepage .col-4 .cancel-info:hover{
-        color: #333!important;
-
-    }
-    .homepage .col-4 .function-btn {
+    .homepage  .aside .function-btn {
         float: right;
         font-size: 13px;
-        color: #969696 !important;
+        color: #969696;
     }
-    .homepage .col-4 .btn-hollow {
-         font-size: 14px;
-         text-align: center;
-         width: 80px;
-         color: #42c02e;
-         border: 1px solid rgba(59,194,29,.7);
-         color: #42c02e!important;
-         border-radius: 15px;
-        margin-right: 20px;
-     }
-    .homepage .col-4 .btn-hollow:hover {
-        background: rgba(59,194,29,.2);
-
+    .homepage .aside .title {
+        float: left;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #969696;
     }
-    .homepage .author .sendBtn {
-        padding-top: 20px;
+    .homepage .aside .description {
+        position: relative;
+        margin-bottom: 20px;
+        padding: 0 0 16px;
+        text-align: left;
+        font-size: 14px;
+        border-bottom: 1px solid #f0f0f0;
+        clear: both;
+        word-break: break-word!important;
+        word-break: break-all;
     }
-
-    .homepage .author .btn {
-        width: 100px;
-        padding: 8px 0;
-        box-shadow: none;
-        font-size: 15px;
+    .homepage .aside .share {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f0f0f0;
+        line-height: 30px;
     }
-
-    .homepage .author .send {
-        border: 1px solid rgba(59, 194, 29, .7);
-        color: #42c02e !important;
-        font-size: 15px;
-        border-radius: 20px;
-        padding: 6px 7px;
-        margin-right: 20px;
+    .homepage .aside .share span {
+        font-size: 14px;
+        vertical-align: middle;
     }
-
-    .homepage .author .follow {
-        background: #42c02e;
-        color: white !important;
-        font-size: 15px;
-        border-radius: 20px;
-        padding: 6px 7px;
-
+    .homepage .aside .share .option {
+        margin-left: 10px;
+        color: #333;
     }
-
-    .homepage .author .following {
-        background: #fff;
-        color: #969696 !important;
-        border: 1px solid #ccc;
-        font-size: 15px;
-        border-radius: 20px;
-        padding: 6px 7px;
+    .homepage .aside .share i {
+        font-size: 22px;
+        vertical-align: middle;
+    }
+    .homepage .aside .list {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        list-style: none;
+        border-bottom: 1px solid #f0f0f0;
+        clear: both;
+    }
+    .homepage .aside .list li {
+        margin-bottom: 10px;
+    }
+    .homepage .aside .list li a {
+        display: inline-block;
+    }
+    .homepage .aside .avatar, .homepage .aside .avatar-collection {
+        margin-right: 5px;
+        width: 32px;
+        height: 32px;
+    }
+    .homepage .aside a, .homepage .aside a:hover {
+        color: #3194d0;
+    }
+    .homepage .aside .name {
+        position: relative;
+        max-width: 236px;
+        vertical-align: middle;
+        top: 1px;
+        font-size: 14px;
+        color: #333;
+    }
+    .homepage .aside .tag {
+        padding: 1px 3px;
+        margin-left: 2px;
+        border-radius: 3px;
+        font-size: 12px;
+        color: #969696;
+        border: 1px solid #969696;
+    }
+    .homepage .aside .list {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        list-style: none;
+        border-bottom: 1px solid #f0f0f0;
+        clear: both;
+    }
+    .homepage .aside .list.collection-follower li {
+        display: inline-block;
+    }
+    .homepage .aside .list.collection-follower li:first-child {
+        margin-left: -3px;
+    }
+    .homepage .aside .list li {
+        margin-bottom: 10px;
+    }
+    .homepage .aside .list.collection-follower li a {
+        margin-right: -10px;
+    }
+    .homepage .aside .list.collection-follower li img {
+        border: 3px solid #fff;
+        background-color: #fff;
+    }
+    .homepage.aside .title {
+        float: left;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #969696;
+    }
+    .homepage .aside .function-btn {
+        float: right;
+        font-size: 13px;
+        color: #969696;
+    }
+    .homepage.aside .description, .homepage .aside .new-collection-block {
+        position: relative;
+        margin-bottom: 16px;
+        padding: 0 0 16px;
+        text-align: left;
+        font-size: 0;
+        border-bottom: 1px solid #f0f0f0;
+        clear: both;
+        word-break: break-word!important;
+        word-break: break-all;
+    }
+    .homepage .aside .description .js-intro, .homepage .aside .new-collection-block .js-intro {
+        margin-bottom: 10px;
+        line-height: 20px;
+        font-size: 14px;
+    }
+    .homepage .aside .user-dynamic {
+        padding-bottom: 6px;
+    }
+    .homepage .aside .list {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        list-style: none;
+        border-bottom: 1px solid #f0f0f0;
+        clear: both;
+    }
+    .homepage .aside .list li {
+        margin-bottom: 10px;
+    }
+    .homepage .aside .list li a {
+        display: inline-block;
+    }
+    .homepage .aside .user-dynamic a {
+        font-size: 14px;
+        color: #333;
+        line-height: 30px;
+    }
+    .homepage .aside a, .person .aside a:hover {
+        color: #3194d0;
+    }
+    .homepage .aside .list li a i {
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+    .homepage .aside .user-dynamic i {
+        margin-right: 10px;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+    .homepage.aside .user-dynamic span {
+        vertical-align: middle;
+    }
+    .homepage .aside .title {
+        float: left;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #969696;
+    }
+    .homepage .aside .new-collection-btn {
+        font-size: 13px;
+        color: #42c02e!important;
+    }
+    .homepage .aside .function-btn {
+        float: right;
+        font-size: 13px;
+        color: #969696;
+    }
+    .homepage .aside .new-collection-btn i {
+        padding-right: 2px;
+    }
+    .homepage .aside .list {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        list-style: none;
+        border-bottom: 1px solid #f0f0f0;
+        clear: both;
+    }
+    .homepage .aside .avatar, .person .aside .avatar-collection {
+        margin-right: 5px;
+        width: 32px;
+        height: 32px;
+    }
+    .avatar-collection img {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ddd;
+        border-radius: 10%;
+    }
+    .homepage .aside .name {
+        position: relative;
+        max-width: 236px;
+        vertical-align: middle;
+        top: 1px;
+        font-size: 14px;
+        color: #333;
+    }
+    .homepage .aside .list li a i {
+        color:#969696;
+        font-size:25px;
+        vertical-align: middle;
+        margin-right: 5px;
     }
 </style>

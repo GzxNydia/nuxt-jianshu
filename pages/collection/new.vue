@@ -14,8 +14,8 @@
                         </td>
                         <td>
                             <a class="btn btn-hollow"><input unselectable="on" type="file"
-                                                                              class="hide">
-                            上传专题封面
+                                                             class="hide">
+                                上传专题封面
                             </a>
                         </td>
                     </tr>
